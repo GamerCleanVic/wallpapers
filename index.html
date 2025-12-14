@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-translate>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IniJS Wallpapers</title>
+    <title data-i18n="page-title">IniJS Wallpapers</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,9 +17,9 @@
                 <span></span>
             </button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#gallery">Galeria</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#contact">Contato</a></li>
+                <li><a href="#gallery" data-i18n="nav-gallery">Galeria</a></li>
+                <li><a href="#about" data-i18n="nav-about">Sobre</a></li>
+                <li><a href="#contact" data-i18n="nav-contact">Contato</a></li>
             </ul>
         </div>
     </nav>
@@ -27,8 +27,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h2 class="hero-title">Wallpaper by IA Google AI Studio</h2>
-            <p class="hero-subtitle">Wallpapers gerados por inteligência artificial, qualidade profissional</p>
+            <h2 class="hero-title" data-i18n="hero-title">Wallpaper by IA Google AI Studio</h2>
+            <p class="hero-subtitle" data-i18n="hero-subtitle">Wallpapers gerados por inteligência artificial, qualidade profissional</p>
         </div>
         <div class="hero-overlay"></div>
     </section>
@@ -36,8 +36,8 @@
     <!-- Galeria -->
     <section id="gallery" class="gallery">
         <div class="gallery-container">
-            <h2 class="section-title">Galeria de Wallpapers</h2>
-            <p class="section-subtitle">Clique em qualquer imagem para visualizar em tela cheia</p>
+            <h2 class="section-title" data-i18n="gallery-title">Galeria de Wallpapers</h2>
+            <p class="section-subtitle" data-i18n="gallery-subtitle">Clique em qualquer imagem para visualizar em tela cheia</p>
 
             <div class="gallery-grid">
                 <!-- As imagens serão carregadas dinamicamente via JavaScript -->
@@ -51,8 +51,8 @@
             <button class="close-btn" id="closeBtn">✕</button>
             <img id="modalImage" src="" alt="Wallpaper em tela cheia">
             <div class="modal-footer">
-                <button class="download-btn" id="downloadBtn">Download</button>
-                <a href="#contact" class="contact-modal-btn" id="contactBtn" target="_blank">Contatos</a>
+                <button class="download-btn" id="downloadBtn" data-i18n="btn-download">Download</button>
+                <a href="#contact" class="contact-modal-btn" id="contactBtn" data-i18n="btn-contact" target="_blank">Contatos</a>
             </div>
         </div>
         <div class="modal-background"></div>
@@ -64,11 +64,11 @@
     <!-- Sobre -->
     <section id="about" class="about">
         <div class="about-container">
-            <h2 class="section-title">Wallpaper by IA Google AI Studio</h2>
-            <p class="about-text">
+            <h2 class="section-title" data-i18n="about-title">Wallpaper by IA Google AI Studio</h2>
+            <p class="about-text" data-i18n="about-text">
                 Descubra uma coleção exclusiva de wallpapers gerados por inteligência artificial usando o Google AI Studio.
                 Cada imagem é criada com algoritmos avançados de aprendizado de máquina, garantindo qualidade profissional
-                e designs únicos. Perfeito para personalizar seu desktop, laptop ou dispositivo móvel.
+                e designs únicos. Perfeito para personalizar seu desktop e laptop.
             </p>
         </div>
     </section>
@@ -76,9 +76,9 @@
     <!-- Contato -->
     <section id="contact" class="contact">
         <div class="contact-container">
-            <h2 class="section-title">Redes Sociais</h2>
-            <p class="section-subtitle">Tem alguma dúvida ou sugestão?</p>
-            <a href="https://inijs.vercel.app/contatos.html" target="_blank" class="contact-btn">
+            <h2 class="section-title" data-i18n="contact-title">Redes Sociais</h2>
+            <p class="section-subtitle" data-i18n="contact-subtitle">Tem alguma dúvida ou sugestão?</p>
+            <a href="https://inijs.vercel.app/contatos.html" target="_blank" class="contact-btn" data-i18n="btn-contacts">
                 Contatos
             </a>
         </div>
@@ -87,11 +87,12 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; 2025 Wallpaper by IA Google AI Studio. Todos os direitos reservados.</p>
-            <p>Gerado com IA | Google AI Studio</p>
+            <p data-i18n="footer-copyright">&copy; 2025 Wallpaper by IA Google AI Studio. Todos os direitos reservados.</p>
+            <p data-i18n="footer-credits">Site gerado com Claude code | Copilot</p>
         </div>
     </footer>
 
+    <script src="js/i18n.js"></script>
     <script src="js/menu.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/particles.js"></script>

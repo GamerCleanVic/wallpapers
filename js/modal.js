@@ -3,13 +3,19 @@
 class ImageModal {
     // Array de imagens com URLs remotas
     static IMAGES = [
+        'https://raw.githubusercontent.com/GamerCleanVic/iconswpsofdistros/refs/heads/master/Arch%20Linux/BG_WP.jpeg',
+        'https://raw.githubusercontent.com/GamerCleanVic/iconswpsofdistros/refs/heads/master/Arch%20Linux/WP_ArchBlue01.jpeg',
+        'https://raw.githubusercontent.com/GamerCleanVic/iconswpsofdistros/refs/heads/master/Arch%20Linux/wp_ArchBlueBlack3840x2006.jpeg',
+        'https://raw.githubusercontent.com/GamerCleanVic/iconswpsofdistros/refs/heads/master/Arch%20Linux/wp_ArchBlackGrey3840x2204.jpeg',
+        'https://raw.githubusercontent.com/GamerCleanVic/iconswpsofdistros/refs/heads/master/Arch%20Linux/ArchLand4kWideDark.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/iconswpsofdistros/refs/heads/master/Ubuntu/UbuntuLand4kWideDark.png',
         'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta1.png',
         'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta7.png',
         'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta8.png',
         'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta9.png',
         'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta11.png',
         'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta12.png',
-        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta13.png'
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta13.png',
     ];
 
     constructor() {
@@ -46,7 +52,11 @@ class ImageModal {
 
             const overlay = document.createElement('div');
             overlay.className = 'gallery-overlay';
-            overlay.innerHTML = '<span class="overlay-text">Clique para ampliar</span>';
+            const overlayText = document.createElement('span');
+            overlayText.className = 'overlay-text';
+            overlayText.setAttribute('data-i18n', 'gallery-click-msg');
+            overlayText.textContent = window.i18n ? window.i18n.translations[window.i18n.currentLanguage]['gallery-click-msg'] || 'Clique para ampliar' : 'Clique para ampliar';
+            overlay.appendChild(overlayText);
 
             galleryItem.appendChild(img);
             galleryItem.appendChild(overlay);
