@@ -172,7 +172,7 @@ class I18n {
     detectLanguage() {
         const browserLang = navigator.language || navigator.userLanguage;
         const langCode = browserLang.split('-')[0].toLowerCase();
-        
+
         // Retornar idioma suportado ou português como padrão
         return this.translations[langCode] ? langCode : 'pt';
     }
@@ -187,7 +187,7 @@ class I18n {
         elements.forEach(element => {
             const key = element.getAttribute('data-i18n');
             const translation = this.translations[this.currentLanguage][key];
-            
+
             if (translation) {
                 // Para elementos de título e atributos
                 if (element.tagName === 'TITLE') {
