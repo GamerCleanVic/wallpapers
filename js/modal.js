@@ -1,6 +1,17 @@
-// ===== Sistema de Modal de Imagens =====
+// ===== Sistema de Modal de Imagens - Otimizado =====
 
 class ImageModal {
+    // Array de imagens com URLs remotas
+    static IMAGES = [
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta1.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta7.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta8.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta9.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta11.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta12.png',
+        'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta13.png'
+    ];
+
     constructor() {
         this.modal = document.getElementById('imageModal');
         this.modalImage = document.getElementById('modalImage');
@@ -9,72 +20,59 @@ class ImageModal {
         this.modalBackground = document.querySelector('.modal-background');
         this.currentImagePath = '';
         this.currentImageName = '';
+        this.escapeHandler = (e) => e.key === 'Escape' && this.closeModal();
 
         this.init();
     }
 
     init() {
         this.loadGallery();
-        this.setupEventListeners();
+        this.attachEventListeners();
     }
 
     loadGallery() {
-        const img1 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta1.png';
-        const img2 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta7.png';
-        const img3 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta8.png';
-        const img4 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta9.png';
-        const img5 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta11.png';
-        const img6 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta12.png';
-        const img7 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta13.png';
-
-        // Carregar imagens da pasta images
-        const images = [img1, img2, img3, img4, img5, img6, img7]; // Adicione mais imagens conforme necessário
         const galleryGrid = document.querySelector('.gallery-grid');
+        const fragment = document.createDocumentFragment();
 
-        images.forEach((imageName, index) => {
+        ImageModal.IMAGES.forEach((url, index) => {
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item';
-            galleryItem.innerHTML = `
-                <img src="images/${imageName}" alt="Wallpaper ${index + 1}">
-                <div class="gallery-overlay">
-                    <span class="overlay-text">Clique para ampliar</span>
-                </div>
-            `;
 
-            galleryItem.addEventListener('click', () => {
-                this.openModal(`images/${imageName}`, imageName);
-            });
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `Wallpaper ${index + 1}`;
+            img.loading = 'lazy';
 
-            galleryGrid.appendChild(galleryItem);
+            const overlay = document.createElement('div');
+            overlay.className = 'gallery-overlay';
+            overlay.innerHTML = '<span class="overlay-text">Clique para ampliar</span>';
+
+            galleryItem.appendChild(img);
+            galleryItem.appendChild(overlay);
+            galleryItem.addEventListener('click', () => this.openModal(url, `wallpaper_${index + 1}.png`));
+
+            fragment.appendChild(galleryItem);
         });
+
+        galleryGrid.appendChild(fragment);
     }
 
-    setupEventListeners() {
-        // Fechar modal ao clicar no X
-        this.closeBtn.addEventListener('click', (e) => {
+    attachEventListeners() {
+        const handleClose = (e) => {
             e.stopPropagation();
             this.createParticles(e, 'close');
-            setTimeout(() => this.closeModal(), 100);
-        });
-
-        // Fechar modal ao clicar no fundo
-        this.modalBackground.addEventListener('click', () => {
             this.closeModal();
-        });
+        };
 
-        // Download da imagem
-        this.downloadBtn.addEventListener('click', (e) => {
+        const handleDownload = (e) => {
             e.stopPropagation();
             this.createParticles(e, 'download');
             this.downloadImage();
-        });
+        };
 
-        // Fechar modal com tecla ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
-                this.closeModal();
-            }
-        });
+        this.closeBtn.addEventListener('click', handleClose);
+        this.modalBackground.addEventListener('click', () => this.closeModal());
+        this.downloadBtn.addEventListener('click', handleDownload);
     }
 
     openModal(imagePath, imageName) {
@@ -83,31 +81,26 @@ class ImageModal {
         this.modalImage.src = imagePath;
         this.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        document.addEventListener('keydown', this.escapeHandler);
     }
 
-    closeModal() {
+    closeModal = () => {
         this.modal.classList.remove('active');
         document.body.style.overflow = 'auto';
+        document.removeEventListener('keydown', this.escapeHandler);
     }
 
     downloadImage() {
         const link = document.createElement('a');
         link.href = this.currentImagePath;
-        link.download = this.currentImageName || 'wallpaper.png';
-        document.body.appendChild(link);
+        link.download = this.currentImageName;
         link.click();
-        document.body.removeChild(link);
     }
 
     createParticles(event, type) {
-        // Importar função de partículas do arquivo particles.js
-        if (window.createParticleEffect) {
-            window.createParticleEffect(event.clientX, event.clientY, type);
-        }
+        window.createParticleEffect?.(event.clientX, event.clientY, type);
     }
 }
 
-// Inicializar modal quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
-    new ImageModal();
-});
+// Inicializar quando pronto
+document.addEventListener('DOMContentLoaded', () => new ImageModal());

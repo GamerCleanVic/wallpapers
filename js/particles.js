@@ -1,114 +1,74 @@
-// ===== Sistema de Partículas =====
+// ===== Sistema de Partículas - Otimizado =====
 
 class ParticleEffect {
+    static CONFIG = {
+        click: {
+            colors: ['#e94560', '#ff6b9d', '#ff8fab', '#ffb3c1'],
+            count: 10,
+            speed: { min: 2, max: 6 },
+            size: { min: 4, max: 10 },
+            duration: 700
+        },
+        close: {
+            colors: ['#ff4757', '#ee5a6f', '#ff6384', '#ffb3c1'],
+            count: 14,
+            speed: { min: 3, max: 8 },
+            size: { min: 5, max: 12 },
+            duration: 800
+        },
+        download: {
+            colors: ['#00d4ff', '#0099ff', '#00ccff', '#33ddff'],
+            count: 16,
+            speed: { min: 2, max: 7 },
+            size: { min: 4, max: 11 },
+            duration: 900
+        }
+    };
+
+    static FRICTION = 0.98;
+    static GRAVITY = 0.1;
+
     constructor() {
         this.container = document.getElementById('particleContainer');
-        this.particles = [];
     }
 
     createParticle(x, y, type = 'click') {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
+        const settings = ParticleEffect.CONFIG[type] || ParticleEffect.CONFIG.click;
+        const angleStep = (Math.PI * 2) / settings.count;
 
-        // Configurações por tipo de evento
-        const config = {
-            click: {
-                colors: ['#e94560', '#ff6b9d', '#ff8fab', '#ffb3c1'],
-                count: 12,
-                speed: { min: 2, max: 6 },
-                size: { min: 4, max: 10 },
-                duration: 800
-            },
-            close: {
-                colors: ['#ff4757', '#ee5a6f', '#ff6384', '#ffb3c1'],
-                count: 16,
-                speed: { min: 3, max: 8 },
-                size: { min: 5, max: 12 },
-                duration: 900
-            },
-            download: {
-                colors: ['#00d4ff', '#0099ff', '#00ccff', '#33ddff'],
-                count: 20,
-                speed: { min: 2, max: 7 },
-                size: { min: 4, max: 11 },
-                duration: 1000
-            }
-        };
-
-        const settings = config[type] || config.click;
-
-        // Criar múltiplas partículas
         for (let i = 0; i < settings.count; i++) {
-            const singleParticle = document.createElement('div');
-            singleParticle.className = 'particle';
-
-            const angle = (Math.PI * 2 * i) / settings.count;
+            const particle = document.createElement('div');
+            const angle = angleStep * i;
             const speed = this.randomRange(settings.speed.min, settings.speed.max);
-            const vx = Math.cos(angle) * speed;
-            const vy = Math.sin(angle) * speed;
             const size = this.randomRange(settings.size.min, settings.size.max);
             const color = settings.colors[Math.floor(Math.random() * settings.colors.length)];
-            const friction = 0.98;
-            const gravity = 0.1;
 
-            singleParticle.style.cssText = `
-                position: absolute;
-                left: ${x}px;
-                top: ${y}px;
-                width: ${size}px;
-                height: ${size}px;
-                background: ${color};
-                border-radius: 50%;
-                box-shadow: 0 0 ${size}px ${color};
-                pointer-events: none;
-                opacity: 1;
-                z-index: 501;
-            `;
+            particle.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${color};border-radius:50%;pointer-events:none;opacity:1;z-index:501`;
 
-            this.container.appendChild(singleParticle);
+            this.container.appendChild(particle);
 
-            let posX = x;
-            let posY = y;
-            let velocityX = vx;
-            let velocityY = vy;
+            let posX = x, posY = y;
+            let vx = Math.cos(angle) * speed;
+            let vy = Math.sin(angle) * speed;
             let opacity = 1;
-            let elapsedTime = 0;
-            const animationDuration = settings.duration;
+            let elapsed = 0;
+            const duration = settings.duration;
 
             const animate = () => {
-                elapsedTime += 16;
+                elapsed += 16;
+                posX += vx;
+                posY += vy;
+                vx *= ParticleEffect.FRICTION;
+                vy *= ParticleEffect.FRICTION;
+                vy += ParticleEffect.GRAVITY;
+                opacity = Math.max(0, 1 - (elapsed / duration));
 
-                // Aplicar velocidade
-                posX += velocityX;
-                posY += velocityY;
+                particle.style.cssText = `position:absolute;left:${posX}px;top:${posY}px;width:${size}px;height:${size}px;background:${color};border-radius:50%;pointer-events:none;opacity:${opacity};z-index:501`;
 
-                // Aplicar fricção e gravidade
-                velocityX *= friction;
-                velocityY *= friction;
-                velocityY += gravity;
-
-                // Calcular opacidade (fade out)
-                opacity = Math.max(0, 1 - (elapsedTime / animationDuration));
-
-                singleParticle.style.cssText = `
-                    position: absolute;
-                    left: ${posX}px;
-                    top: ${posY}px;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background: ${color};
-                    border-radius: 50%;
-                    box-shadow: 0 0 ${size * opacity}px ${color};
-                    pointer-events: none;
-                    opacity: ${opacity};
-                    z-index: 501;
-                    filter: blur(${1 - opacity}px);
-                `;
-
-                if (elapsedTime < animationDuration) {
+                if (elapsed < duration) {
                     requestAnimationFrame(animate);
                 } else {
-                    singleParticle.remove();
+                    particle.remove();
                 }
             };
 
@@ -116,63 +76,31 @@ class ParticleEffect {
         }
     }
 
-    randomRange(min, max) {
-        return Math.random() * (max - min) + min;
-    }
-
-    // Efeito de partículas ao passar do mouse (hover)
     createHoverParticles(x, y) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
+        if (Math.random() > 0.7) return;
 
-        const colors = ['rgba(233, 69, 96, 0.3)', 'rgba(255, 107, 157, 0.3)', 'rgba(255, 179, 193, 0.3)'];
-        const size = this.randomRange(3, 6);
+        const particle = document.createElement('div');
+        const size = this.randomRange(2, 5);
+        const colors = ['rgba(233,69,96,0.3)', 'rgba(255,107,157,0.3)', 'rgba(255,179,193,0.3)'];
         const color = colors[Math.floor(Math.random() * colors.length)];
 
-        particle.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: ${color};
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 1;
-            z-index: 500;
-        `;
-
+        particle.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${color};border-radius:50%;pointer-events:none;opacity:1;z-index:500`;
         this.container.appendChild(particle);
 
-        let posX = x;
-        let posY = y;
-        const vx = this.randomRange(-1, 1);
-        const vy = this.randomRange(-1, 1);
-        let opacity = 1;
-        let elapsedTime = 0;
-        const duration = 500;
+        const vx = this.randomRange(-1, 1) * 0.5;
+        const vy = this.randomRange(-1, 1) * 0.5;
+        let posX = x, posY = y, opacity = 1, elapsed = 0;
+        const duration = 400;
 
         const animate = () => {
-            elapsedTime += 16;
+            elapsed += 16;
+            posX += vx;
+            posY += vy;
+            opacity = Math.max(0, 1 - (elapsed / duration));
 
-            posX += vx * 0.5;
-            posY += vy * 0.5;
-            opacity = Math.max(0, 1 - (elapsedTime / duration));
+            particle.style.cssText = `position:absolute;left:${posX}px;top:${posY}px;width:${size}px;height:${size}px;background:${color};border-radius:50%;pointer-events:none;opacity:${opacity};z-index:500`;
 
-            particle.style.cssText = `
-                position: absolute;
-                left: ${posX}px;
-                top: ${posY}px;
-                width: ${size}px;
-                height: ${size}px;
-                background: ${color};
-                border-radius: 50%;
-                pointer-events: none;
-                opacity: ${opacity};
-                z-index: 500;
-            `;
-
-            if (elapsedTime < duration) {
+            if (elapsed < duration) {
                 requestAnimationFrame(animate);
             } else {
                 particle.remove();
@@ -181,26 +109,27 @@ class ParticleEffect {
 
         animate();
     }
+
+
+    randomRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
 }
 
-// Instância global de partículas
+// Instância global
 const particleEffect = new ParticleEffect();
 
-// Função global para criar efeito de partículas
+// Função global otimizada
 window.createParticleEffect = (x, y, type = 'click') => {
     particleEffect.createParticle(x, y, type);
 };
 
-// Adicionar efeito de hover a botões e elementos interativos
+// Setup de eventos com delegação
 document.addEventListener('DOMContentLoaded', () => {
-    const interactiveElements = document.querySelectorAll('.close-btn, .download-btn, .gallery-item, .nav-links a');
+    const handleMouseMove = (e) => {
+        particleEffect.createHoverParticles(e.clientX, e.clientY);
+    };
 
-    interactiveElements.forEach(element => {
-        element.addEventListener('mousemove', (e) => {
-            // Criar partículas ocasionalmente ao passar do mouse
-            if (Math.random() > 0.7) {
-                particleEffect.createHoverParticles(e.clientX, e.clientY);
-            }
-        });
-    });
+    // Usar event delegation ao invés de múltiplos listeners
+    document.addEventListener('mousemove', handleMouseMove, { capture: false, passive: true });
 });
