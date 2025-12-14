@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper by IA Google AI Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navegação -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">Wallpaper by IA Google AI Studio</h1>
+            <ul class="nav-links">
+                <li><a href="#gallery">Galeria</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="hero-title">Wallpaper by IA Google AI Studio</h2>
+            <p class="hero-subtitle">Wallpapers gerados por inteligência artificial, qualidade profissional</p>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <!-- Galeria -->
+    <section id="gallery" class="gallery">
+        <div class="gallery-container">
+            <h2 class="section-title">Galeria de Wallpapers</h2>
+            <p class="section-subtitle">Clique em qualquer imagem para visualizar em tela cheia</p>
+
+            <div class="gallery-grid">
+                <!-- As imagens serão carregadas dinamicamente via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Visualização -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeBtn">✕</button>
+            <img id="modalImage" src="" alt="Wallpaper em tela cheia">
+            <div class="modal-footer">
+                <button class="download-btn" id="downloadBtn">Download</button>
+            </div>
+        </div>
+        <div class="modal-background"></div>
+    </div>
+
+    <!-- Container de partículas -->
+    <div id="particleContainer" class="particle-container"></div>
+
+    <!-- Sobre -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <h2 class="section-title">Wallpaper by IA Google AI Studio</h2>
+            <p class="about-text">
+                Descubra uma coleção exclusiva de wallpapers gerados por inteligência artificial usando o Google AI Studio.
+                Cada imagem é criada com algoritmos avançados de aprendizado de máquina, garantindo qualidade profissional
+                e designs únicos. Perfeito para personalizar seu desktop, laptop ou dispositivo móvel.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contact" class="contact">
+        <div class="contact-container">
+            <h2 class="section-title">Entre em Contato</h2>
+            <p class="section-subtitle">Tem alguma dúvida ou sugestão?</p>
+            <a href="https://inijs.vercel.app/contatos.html" target="_blank" class="contact-btn">
+                Enviar Mensagem
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Wallpaper by IA Google AI Studio. Todos os direitos reservados.</p>
+            <p>Gerado com IA | Google AI Studio</p>
+        </div>
+    </footer>
+
+    <script src="js/modal.js"></script>
+    <script src="js/particles.js"></script>
+</body>
+</html>
