@@ -91,10 +91,18 @@ class ImageModal {
     }
 
     downloadImage() {
-        const link = document.createElement('a');
-        link.href = this.currentImagePath;
-        link.download = this.currentImageName;
-        link.click();
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = () => {
+            const url = URL.createObjectURL(xhr.response);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = this.currentImageName;
+            link.click();
+            URL.revokeObjectURL(url);
+        };
+        xhr.open('GET', this.currentImagePath);
+        xhr.send();
     }
 
     createParticles(event, type) {
