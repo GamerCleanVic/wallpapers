@@ -19,8 +19,16 @@ class ImageModal {
     }
 
     loadGallery() {
+        const img1 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta1.png';
+        const img2 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta7.png';
+        const img3 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta8.png';
+        const img4 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta9.png';
+        const img5 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta11.png';
+        const img6 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta12.png';
+        const img7 = 'https://raw.githubusercontent.com/GamerCleanVic/archives/refs/heads/main/images/floresta13.png';
+
         // Carregar imagens da pasta images
-        const images = ['floresta12.png']; // Adicione mais imagens conforme necessário
+        const images = [img1, img2, img3, img4, img5, img6, img7]; // Adicione mais imagens conforme necessário
         const galleryGrid = document.querySelector('.gallery-grid');
 
         images.forEach((imageName, index) => {
