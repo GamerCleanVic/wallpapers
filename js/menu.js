@@ -9,7 +9,7 @@ class MobileMenu {
 
     init() {
         this.menuToggle.addEventListener('click', () => this.toggleMenu());
-        
+
         // Fechar menu ao clicar em um link
         this.navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => this.closeMenu());
