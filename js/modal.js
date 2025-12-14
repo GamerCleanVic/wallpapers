@@ -17,6 +17,7 @@ class ImageModal {
         this.modalImage = document.getElementById('modalImage');
         this.closeBtn = document.getElementById('closeBtn');
         this.downloadBtn = document.getElementById('downloadBtn');
+        this.contactBtn = document.getElementById('contactBtn');
         this.modalBackground = document.querySelector('.modal-background');
         this.currentImagePath = '';
         this.currentImageName = '';
@@ -70,9 +71,15 @@ class ImageModal {
             this.downloadImage();
         };
 
+        const handleContact = (e) => {
+            e.stopPropagation();
+            this.createParticles(e, 'download');
+        };
+
         this.closeBtn.addEventListener('click', handleClose);
         this.modalBackground.addEventListener('click', () => this.closeModal());
         this.downloadBtn.addEventListener('click', handleDownload);
+        this.contactBtn.addEventListener('click', handleContact);
     }
 
     openModal(imagePath, imageName) {
